@@ -13,7 +13,9 @@
 #define KSCREENHEIGHT	([[UIScreen mainScreen] bounds].size.height)
 #define DEFAULTHEIGHT	(KSCREENWIDTH * 0.8)
 
-@interface TableViewController () <UIScrollViewDelegate /*, UITableViewDelegate, UITableViewDataSource*/>
+static NSString *const CellIdentifier = @"CellIdentifier";
+
+@interface TableViewController () <UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
@@ -70,13 +72,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSString *CellIdentifier = @"cellIdentifier";
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-
-	if (!cell) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	}
+    if (Version() >= 7.0) {
+        cell.separatorInset = UIEdgeInsetsZero;
+        if (Version() >= 8.0) {
+            cell.layoutMargins = UIEdgeInsetsZero;
+        }
+    }
 	return cell;
 }
 
@@ -108,7 +110,6 @@
     frame.size.height += 50;
     self.headerView.frame = frame;
     self.tableView.tableHeaderView = self.headerView;
-    
 }
 
 - (IBAction)deleteH:(id)sender
@@ -119,6 +120,11 @@
     self.tableView.tableHeaderView = self.headerView;
 }
 
+#pragma mark - Function
+
+CGFloat Version(){
+    return [[[UIDevice currentDevice] systemVersion] floatValue];
+}
 
 /*
  * #pragma mark - Navigation
