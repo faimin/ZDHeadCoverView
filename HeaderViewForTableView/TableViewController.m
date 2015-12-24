@@ -51,6 +51,7 @@ static NSString *const CellIdentifier = @"CellIdentifier";
 	self.topImageView = ({
 		UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tiger"]];
 		imageView.frame = (CGRect) {0, -DEFAULTHEIGHT, KSCREENWIDTH, DEFAULTHEIGHT};
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
 		imageView.backgroundColor = [UIColor magentaColor];
 		imageView.clipsToBounds = YES;
 		[self.tableView addSubview:imageView];
